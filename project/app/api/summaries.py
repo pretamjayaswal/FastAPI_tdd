@@ -31,3 +31,6 @@ async def read_summary(id: int) -> SummarySchema:
 @router.get("/", response_model=List[SummarySchema])
 async def read_all_summaries() -> List[SummarySchema]:
     summary = await crud.get_all()
+    # if not summary:
+    #     raise HTTPException(status_code=404, detail="Summary not found")
+    return summary
