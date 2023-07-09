@@ -1,6 +1,8 @@
 
 import json
+
 import pytest
+
 
 def test_create_summary(test_app_with_db):
     response = test_app_with_db.post("/summaries", data = json.dumps({"url":"https://foo.bar"}))
@@ -52,3 +54,11 @@ def test_read_summary_all(test_app_with_db):
     response_list = response.json()
     assert len(list(filter(lambda d: d['id'] == summary_id, response_list))) == 1
     # assert response.json()['detail'] == "Summary not found"
+
+
+# def test_delete_summary(test_app_with_db):
+#     response = test_app_with_db.post('/summaries', data=json.dumps({"url":"https://test.com"}))
+#     summary_id = response.json()['id']
+
+#     response = test_app_with_db.delete(f'summaries/{summary_id}/')
+#     assert response.status_code == 404

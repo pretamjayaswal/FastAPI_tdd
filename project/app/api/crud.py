@@ -1,9 +1,9 @@
 
 
+from typing import List, Union
+
 from app.models.pydantic import SummaryPayloadSchema
 from app.models.tortoise import TextSummary
-
-from typing import Union, List
 
 
 async def post(payload: SummaryPayloadSchema) -> int:
@@ -26,4 +26,13 @@ async def get_all() -> List:
     # print(summaries)
     if summaries:
         return summaries
+    return None
+
+async def delete(id: int) -> Union[int, None]:
+    summary = await TextSummary.filter(id=id).first()
+    if summary:
+        id = summary.id
+        summary.delete()
+        return id
+        
     return None

@@ -1,9 +1,9 @@
 
+from typing import List
+
 from fastapi import APIRouter, HTTPException
 
 from app.api import crud
-from typing import List
-
 from app.models.pydantic import SummaryPayloadSchema, SummaryResponseSchema
 from app.models.tortoise import SummarySchema
 
@@ -34,3 +34,11 @@ async def read_all_summaries() -> List[SummarySchema]:
     # if not summary:
     #     raise HTTPException(status_code=404, detail="Summary not found")
     return summary
+
+@router.delete("/{id}/")
+async def delete_summary(id: int) -> dict :
+    summary_id = await crud.delete(id)
+    if not summary_id:
+        raise HTTPException(status_code=404, detail="Summary to be deleted not found")
+    return {"msg":f"Deleted id {summary_id} summary"}
+
